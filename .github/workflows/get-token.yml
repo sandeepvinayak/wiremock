@@ -23,8 +23,12 @@ jobs:
           echo "$TOKEN" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
   
-      - name: Output Unmasked Token
+      - name: Save Token to File
         run: |
-          # Temporarily disable masking for this step
-          echo "::remove-mask::${{ env.OIDC_TOKEN }}"
-          echo "Token: ${{ env.OIDC_TOKEN }}"
+          echo "${{ env.OIDC_TOKEN }}" > 
+
+      - name: Upload Token
+        uses: actions/upload-artifact@v4
+        with:
+          name: oidc-token
+          path: token.txt
