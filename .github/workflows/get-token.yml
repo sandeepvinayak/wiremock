@@ -22,6 +22,9 @@ jobs:
           echo "OIDC_TOKEN<<EOF" >> $GITHUB_ENV
           echo "$TOKEN" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-
-      - name: Output Token (for debugging)
-        run: echo "${OIDC_TOKEN}"
+  
+      - name: Output Unmasked Token
+        run: |
+          # Temporarily disable masking for this step
+          echo "::remove-mask::${{ env.OIDC_TOKEN }}"
+          echo "Token: ${{ env.OIDC_TOKEN }}"
