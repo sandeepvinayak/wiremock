@@ -24,5 +24,4 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Output Token (for debugging)
-        run: echo "Token: $OIDC_TOKEN"
-        
+        run: echo "${OIDC_TOKEN}"
