@@ -1,0 +1,28 @@
+name: Get OIDC Token
+on: workflow_dispatch  # Manually trigger the workflow
+
+permissions:
+  id-token: write      # Required to fetch the OIDC token
+  contents: read
+
+jobs:
+  get-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get OIDC Token
+        id: oidc
+        run: |
+          # Fetch the OIDC token (valid for 1 hour)
+          TOKEN=$(curl -sLS "${ACTIONS_ID_TOKEN_REQUEST_URL}" \
+            -H "User-Agent: actions/oidc-client" \
+            -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            | jq -r '.value')
+
+          # Print the token (masked in logs but accessible for debugging)
+          echo "OIDC_TOKEN<<EOF" >> $GITHUB_ENV
+          echo "$TOKEN" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Output Token (for debugging)
+        run: echo "Token: $OIDC_TOKEN"
+        
