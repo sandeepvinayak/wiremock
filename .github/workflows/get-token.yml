@@ -25,7 +25,7 @@ jobs:
   
       - name: Save Token to File
         run: |
-          echo "${{ env.OIDC_TOKEN }}" > 
+          echo "${{ env.OIDC_TOKEN }}" > token.txt
 
       - name: Upload Token
         uses: actions/upload-artifact@v4
